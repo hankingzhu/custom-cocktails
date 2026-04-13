@@ -39,4 +39,12 @@ describe('getRecommendations', () => {
       getRecommendations({ mood: 'happy', alcoholic: true, spirits: [], flavors: [], availableIngredients: '' })
     ).rejects.toThrow('Something went wrong — please try again.')
   })
+
+  it('throws a friendly error when fetch itself fails (network error)', async () => {
+    global.fetch.mockRejectedValue(new TypeError('Failed to fetch'))
+
+    await expect(
+      getRecommendations({ mood: 'test', alcoholic: true, spirits: [], flavors: [], availableIngredients: '' })
+    ).rejects.toThrow('Something went wrong — please try again.')
+  })
 })
