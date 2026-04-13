@@ -17,20 +17,24 @@ ${cocktailReference}
 RESPONSE RULES:
 - Always respond with valid JSON only. No prose, no markdown, no extra text.
 - Return exactly 2 or 3 cocktail recommendations ranked by fit.
-- Use this exact JSON schema:
+- Use this exact JSON schema (replace all placeholder descriptions with real values):
+\`\`\`json
 {
   "cocktails": [
     {
       "rank": 1,
-      "name": "string",
-      "moodMatch": "1-2 sentence explanation of why this suits the user",
+      "name": "string — cocktail name",
+      "moodMatch": "string — 1-2 sentences explaining why this suits the user",
       "ingredients": [{ "item": "string", "amount": "string" }],
-      "method": "string",
-      "glass": "string",
-      "garnish": "string"
+      "method": "string — step-by-step preparation",
+      "glass": "string — glass type",
+      "garnish": "string or null if no garnish"
     }
   ]
 }
+\`\`\`
+- Do not wrap the response in a code fence or markdown block. Return raw JSON only.
+- "rank" must be a sequential integer starting at 1. No repeated ranks.
 - Cocktail names can be whimsical, evocative, or classic — match the mood.
 - The moodMatch must directly reference what the user described.`
 }
@@ -55,9 +59,10 @@ export function buildUserPrompt(payload) {
 
   if (availableIngredients && availableIngredients.trim() !== '') {
     lines.push(`Constraint: only use ingredients from this list (plus basic bar staples like ice, water, sugar): ${availableIngredients}`)
+    lines.push('If the available ingredients cannot produce 2 cocktails, relax the constraint for lower-ranked suggestions and note the substitution in moodMatch.')
   }
 
-  lines.push('\nRecommend 2-3 cocktails that best match my mood and preferences. Rank them by fit.')
+  lines.push('Recommend 2-3 cocktails that best match my mood and preferences. Rank them by fit.')
 
   return lines.join('\n')
 }

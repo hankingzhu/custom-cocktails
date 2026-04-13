@@ -60,4 +60,41 @@ describe('buildUserPrompt', () => {
     const prompt = buildUserPrompt(payload)
     expect(prompt).not.toContain('only use')
   })
+
+  it('does not include non-alcoholic restriction when alcoholic is true', () => {
+    const payload = {
+      mood: 'happy',
+      alcoholic: true,
+      spirits: [],
+      flavors: [],
+      availableIngredients: ''
+    }
+    const prompt = buildUserPrompt(payload)
+    expect(prompt.toLowerCase()).not.toContain('non-alcoholic')
+  })
+
+  it('suppresses spirits even when spirits array is populated if alcoholic is false', () => {
+    const payload = {
+      mood: 'happy',
+      alcoholic: false,
+      spirits: ['Whiskey', 'Gin'],
+      flavors: [],
+      availableIngredients: ''
+    }
+    const prompt = buildUserPrompt(payload)
+    expect(prompt).not.toContain('Whiskey')
+    expect(prompt).not.toContain('Gin')
+  })
+
+  it('handles whitespace-only availableIngredients as empty', () => {
+    const payload = {
+      mood: 'happy',
+      alcoholic: true,
+      spirits: [],
+      flavors: [],
+      availableIngredients: '   '
+    }
+    const prompt = buildUserPrompt(payload)
+    expect(prompt).not.toContain('only use')
+  })
 })
