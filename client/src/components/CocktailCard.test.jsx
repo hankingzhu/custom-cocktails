@@ -47,4 +47,10 @@ describe('CocktailCard', () => {
     render(<CocktailCard cocktail={mockCocktail} />)
     expect(screen.getByText('#1')).toBeInTheDocument()
   })
+
+  it('renders "None" when garnish is null', () => {
+    const noGarnish = { ...mockCocktail, garnish: null }
+    render(<CocktailCard cocktail={noGarnish} />)
+    expect(screen.getByText(/garnish: none/i)).toBeInTheDocument()
+  })
 })

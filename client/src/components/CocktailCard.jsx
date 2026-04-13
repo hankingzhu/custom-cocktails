@@ -13,8 +13,8 @@ export default function CocktailCard({ cocktail }) {
       <div className="cocktail-card__section">
         <h3>Ingredients</h3>
         <ul className="ingredient-list">
-          {ingredients.map((ing, i) => (
-            <li key={i} className="ingredient-item">
+          {ingredients.map((ing) => (
+            <li key={`${ing.item}-${ing.amount}`} className="ingredient-item">
               <span className="ingredient-item__name">{ing.item}</span>
               <span className="ingredient-item__amount">{ing.amount}</span>
             </li>
