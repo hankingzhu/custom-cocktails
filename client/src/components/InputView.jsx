@@ -105,7 +105,7 @@ export default function InputView({ onSubmit }) {
           className="btn-primary"
           disabled={mood.trim().length < 10}
         >
-          Craft My Cocktail
+          <span>Craft My Cocktail</span>
         </button>
       </form>
     </div>
