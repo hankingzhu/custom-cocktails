@@ -54,4 +54,23 @@ describe('validateCocktailResponse', () => {
     }
     expect(() => validateCocktailResponse(input)).not.toThrow()
   })
+
+  it('throws if called with null', () => {
+    expect(() => validateCocktailResponse(null)).toThrow('missing cocktails array')
+  })
+
+  it('throws if a cocktail has an empty string for a required field', () => {
+    const emptyMethod = { ...validCocktail, method: '' }
+    expect(() => validateCocktailResponse({ cocktails: [emptyMethod, { ...validCocktail, rank: 2 }] })).toThrow('missing field: method')
+  })
+
+  it('throws if ingredients is an empty array', () => {
+    const emptyIngredients = { ...validCocktail, ingredients: [] }
+    expect(() => validateCocktailResponse({ cocktails: [emptyIngredients, { ...validCocktail, rank: 2 }] })).toThrow('missing field: ingredients')
+  })
+
+  it('throws if rank is a string instead of a number', () => {
+    const stringRank = { ...validCocktail, rank: '1' }
+    expect(() => validateCocktailResponse({ cocktails: [stringRank, { ...validCocktail, rank: 2 }] })).toThrow('missing field: rank')
+  })
 })
