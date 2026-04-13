@@ -10,10 +10,10 @@
 }
 
 :root {
-  --bg:           #07080c;
-  --surface:      #0c0e15;
-  --surface-2:    #11141e;
-  --surface-3:    #171b28;
+  --bg:           #080503;
+  --surface:      #0e0b07;
+  --surface-2:    #131009;
+  --surface-3:    #19150c;
   --amber:        #c4863a;
   --amber-light:  #e0a855;
   --amber-dim:    rgba(196, 134, 58, 0.12);
@@ -37,6 +37,33 @@
 
 html { scroll-behavior: smooth; }
 
+/* Art Deco diamond wallpaper — aged amber lattice */
+html::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Cpath d='M24,2 L46,24 L24,46 L2,24 Z' fill='none' stroke='%23c4863a' stroke-width='0.6' opacity='0.18'/%3E%3Ccircle cx='0' cy='0' r='2' fill='%23c4863a' opacity='0.12'/%3E%3Ccircle cx='48' cy='0' r='2' fill='%23c4863a' opacity='0.12'/%3E%3Ccircle cx='0' cy='48' r='2' fill='%23c4863a' opacity='0.12'/%3E%3Ccircle cx='48' cy='48' r='2' fill='%23c4863a' opacity='0.12'/%3E%3Ccircle cx='24' cy='24' r='1.2' fill='%23c4863a' opacity='0.1'/%3E%3C/svg%3E");
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Heavy vignette — edges crushed to near-black like a dimly lit cellar */
+html::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at 50% 42%,
+    transparent 0%,
+    transparent 28%,
+    rgba(5, 3, 1, 0.55) 58%,
+    rgba(3, 2, 0, 0.88) 100%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
 body {
   font-family: var(--font-body);
   background-color: var(--bg);
@@ -46,34 +73,40 @@ body {
   overflow-x: hidden;
 }
 
-/* Candlelight radial glow from top */
+/* Dual candlelight — dim overhead sconce from top + warm table candle from below */
 body::before {
   content: '';
   position: fixed;
-  top: -20vh;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 140vw;
-  height: 70vh;
-  background: radial-gradient(
-    ellipse at 50% 0%,
-    rgba(196, 134, 58, 0.09) 0%,
-    rgba(160, 100, 30, 0.04) 40%,
-    transparent 70%
-  );
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse at 50% -5%,
+      rgba(196, 134, 58, 0.11) 0%,
+      rgba(160, 90, 20, 0.05) 35%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse at 50% 108%,
+      rgba(210, 140, 40, 0.16) 0%,
+      rgba(180, 100, 20, 0.08) 30%,
+      rgba(140, 70, 10, 0.03) 55%,
+      transparent 70%
+    );
   pointer-events: none;
   z-index: 0;
 }
 
-/* Grain texture */
+/* Heavy film grain — aged bar atmosphere */
 body::after {
   content: '';
   position: fixed;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.6;
+  opacity: 0.85;
+  mix-blend-mode: overlay;
 }
 
 .app {
@@ -170,8 +203,9 @@ body::after {
   border-radius: var(--radius-md);
   background: radial-gradient(
     ellipse at 50% 0%,
-    rgba(196, 134, 58, 0.05) 0%,
-    transparent 60%
+    rgba(196, 134, 58, 0.08) 0%,
+    rgba(150, 80, 10, 0.03) 50%,
+    transparent 75%
   );
   pointer-events: none;
 }
