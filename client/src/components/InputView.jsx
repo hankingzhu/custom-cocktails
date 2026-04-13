@@ -24,7 +24,7 @@ export default function InputView({ onSubmit }) {
   return (
     <div className="input-view">
       <header>
-        <h1>Mixologist AI</h1>
+        <h1>The Confidant</h1>
         <p className="tagline">Tell us how you feel, we'll make your drink</p>
       </header>
 

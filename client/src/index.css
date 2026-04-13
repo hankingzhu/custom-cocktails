@@ -1,5 +1,5 @@
 /* ─────────────────────────────────────────────────
-   Mixologist AI — "The Apothecary Bar"
+   The Confidant — Speakeasy Cocktail Bar
    Editorial luxury speakeasy aesthetic
 ───────────────────────────────────────────────── */
 
@@ -151,7 +151,7 @@ body::after {
 }
 
 .input-view header::before {
-  content: '— Mixologist AI —';
+  content: '— The Confidant —';
   display: block;
   font-family: var(--font-body);
   font-size: 0.65rem;
