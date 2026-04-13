@@ -44,4 +44,14 @@ describe('validateCocktailResponse', () => {
     const incomplete = { rank: 1, name: 'Test' }
     expect(() => validateCocktailResponse({ cocktails: [incomplete, incomplete] })).toThrow('missing field')
   })
+
+  it('accepts null garnish', () => {
+    const input = {
+      cocktails: [
+        { ...validCocktail, garnish: null },
+        { ...validCocktail, rank: 2, garnish: null }
+      ]
+    }
+    expect(() => validateCocktailResponse(input)).not.toThrow()
+  })
 })

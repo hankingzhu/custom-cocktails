@@ -1,4 +1,5 @@
 const REQUIRED_FIELDS = ['rank', 'name', 'moodMatch', 'ingredients', 'method', 'glass', 'garnish']
+const NULLABLE_FIELDS = ['garnish']
 
 export function validateCocktailResponse(parsed) {
   if (!parsed.cocktails || !Array.isArray(parsed.cocktails)) {
@@ -9,7 +10,11 @@ export function validateCocktailResponse(parsed) {
   }
   for (const cocktail of parsed.cocktails) {
     for (const field of REQUIRED_FIELDS) {
-      if (cocktail[field] === undefined || cocktail[field] === null) {
+      const value = cocktail[field]
+      const isMissing = NULLABLE_FIELDS.includes(field)
+        ? value === undefined
+        : value === undefined || value === null
+      if (isMissing) {
         throw new Error(`missing field: ${field}`)
       }
     }
