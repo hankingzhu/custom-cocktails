@@ -1,1 +1,245 @@
-/* Styles added in Task 10 */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Georgia', serif;
+  background: #1a1a2e;
+  color: #e8e0d0;
+  min-height: 100vh;
+}
+
+.app {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+/* Input View */
+.input-view header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.input-view h1 {
+  font-size: 2.5rem;
+  color: #d4a843;
+  letter-spacing: 0.05em;
+}
+
+.tagline {
+  color: #a89880;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+.field {
+  margin-bottom: 1.5rem;
+}
+
+.field label,
+.field-label {
+  display: block;
+  font-size: 0.875rem;
+  color: #a89880;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+textarea, input[type="text"] {
+  width: 100%;
+  background: #16213e;
+  border: 1px solid #2d3561;
+  border-radius: 6px;
+  color: #e8e0d0;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+}
+
+textarea:focus, input[type="text"]:focus {
+  outline: none;
+  border-color: #d4a843;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chip {
+  background: #16213e;
+  border: 1px solid #2d3561;
+  border-radius: 20px;
+  color: #a89880;
+  cursor: pointer;
+  font-size: 0.875rem;
+  padding: 0.35rem 0.9rem;
+  transition: all 0.15s ease;
+}
+
+.chip:hover {
+  border-color: #d4a843;
+  color: #d4a843;
+}
+
+.chip--active {
+  background: #d4a843;
+  border-color: #d4a843;
+  color: #1a1a2e;
+}
+
+.btn-primary {
+  background: #d4a843;
+  border: none;
+  border-radius: 6px;
+  color: #1a1a2e;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  padding: 0.85rem 2rem;
+  width: 100%;
+  transition: background 0.15s ease;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #e8c060;
+}
+
+.btn-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid #d4a843;
+  border-radius: 6px;
+  color: #d4a843;
+  cursor: pointer;
+  font-size: 0.875rem;
+  padding: 0.5rem 1.25rem;
+  transition: all 0.15s ease;
+}
+
+.btn-secondary:hover {
+  background: #d4a843;
+  color: #1a1a2e;
+}
+
+/* Loading */
+.loading {
+  text-align: center;
+  padding: 4rem 0;
+  color: #a89880;
+  font-style: italic;
+  font-size: 1.25rem;
+}
+
+/* Results View */
+.results-view__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.results-view__header h1 {
+  color: #d4a843;
+  font-size: 1.75rem;
+}
+
+.results-view__cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Cocktail Card */
+.cocktail-card {
+  background: #16213e;
+  border: 1px solid #2d3561;
+  border-radius: 10px;
+  padding: 1.5rem;
+}
+
+.cocktail-card__header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.cocktail-card__rank {
+  color: #d4a843;
+  font-size: 0.875rem;
+  font-weight: bold;
+}
+
+.cocktail-card__name {
+  font-size: 1.4rem;
+  color: #e8e0d0;
+}
+
+.cocktail-card__mood-match {
+  color: #a89880;
+  font-style: italic;
+  margin-bottom: 1.25rem;
+  line-height: 1.5;
+}
+
+.cocktail-card__section {
+  margin-bottom: 1rem;
+}
+
+.cocktail-card__section h3 {
+  color: #d4a843;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.ingredient-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.ingredient-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+}
+
+.ingredient-item__amount {
+  color: #a89880;
+}
+
+.cocktail-card__meta {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.8rem;
+  color: #a89880;
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #2d3561;
+}
+
+/* Error View */
+.error-view {
+  text-align: center;
+  padding: 4rem 0;
+}
+
+.error-view__message {
+  color: #e07060;
+  margin-bottom: 1.5rem;
+}
