@@ -48,7 +48,7 @@ describe('GET /health', () => {
 describe('POST /api/recommend', () => {
   beforeEach(() => {
     mockCreate.mockResolvedValue({
-      content: [{ text: JSON.stringify(mockCocktailResponse) }]
+      content: [{ type: 'text', text: JSON.stringify(mockCocktailResponse) }]
     })
   })
 
@@ -81,7 +81,7 @@ describe('POST /api/recommend', () => {
 
   it('returns 500 when Claude returns malformed JSON and retry also fails', async () => {
     mockCreate.mockResolvedValue({
-      content: [{ text: 'not valid json at all' }]
+      content: [{ type: 'text', text: 'not valid json at all' }]
     })
 
     const app = createApp()
@@ -97,5 +97,56 @@ describe('POST /api/recommend', () => {
 
     expect(res.status).toBe(500)
     expect(res.body.error).toMatch(/try again/)
+  })
+
+  it('returns 200 when Claude returns code-fenced JSON', async () => {
+    const codeFenced = '```json\n' + JSON.stringify(mockCocktailResponse) + '\n```'
+    mockCreate.mockResolvedValueOnce({
+      content: [{ type: 'text', text: codeFenced }]
+    })
+    const app = createApp()
+    const res = await request(app)
+      .post('/api/recommend')
+      .send({
+        mood: 'stressed after a long day',
+        alcoholic: true,
+        spirits: [],
+        flavors: [],
+        availableIngredients: ''
+      })
+    expect(res.status).toBe(200)
+    expect(res.body.cocktails).toHaveLength(2)
+  })
+
+  it('returns 200 on retry when first Claude call returns invalid JSON', async () => {
+    mockCreate
+      .mockResolvedValueOnce({ content: [{ type: 'text', text: 'not valid json' }] })
+      .mockResolvedValueOnce({ content: [{ type: 'text', text: JSON.stringify(mockCocktailResponse) }] })
+    const app = createApp()
+    const res = await request(app)
+      .post('/api/recommend')
+      .send({
+        mood: 'testing retry behavior here',
+        alcoholic: true,
+        spirits: [],
+        flavors: [],
+        availableIngredients: ''
+      })
+    expect(res.status).toBe(200)
+    expect(res.body.cocktails).toHaveLength(2)
+  })
+
+  it('returns 400 when spirits is not an array', async () => {
+    const app = createApp()
+    const res = await request(app)
+      .post('/api/recommend')
+      .send({
+        mood: 'feeling adventurous today',
+        alcoholic: true,
+        spirits: 'Bourbon',
+        flavors: [],
+        availableIngredients: ''
+      })
+    expect(res.status).toBe(400)
   })
 })

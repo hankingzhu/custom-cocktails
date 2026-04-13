@@ -11,8 +11,12 @@ async function callClaude(systemPrompt, userPrompt) {
     system: systemPrompt,
     messages: [{ role: 'user', content: userPrompt }]
   })
-  const text = message.content[0].text
-  const parsed = JSON.parse(text)
+  const block = message.content?.[0]
+  if (!block || block.type !== 'text') {
+    throw new Error('unexpected Claude response shape')
+  }
+  const stripped = block.text.replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/i, '').trim()
+  const parsed = JSON.parse(stripped)
   validateCocktailResponse(parsed)
   return parsed
 }
@@ -24,6 +28,17 @@ export async function recommendHandler(req, res) {
     return res.status(400).json({ error: 'mood is required' })
   }
 
+  if (!Array.isArray(spirits) || !Array.isArray(flavors)) {
+    return res.status(400).json({ error: 'spirits and flavors must be arrays' })
+  }
+
+  if (mood.trim().length > 500) {
+    return res.status(400).json({ error: 'mood must be 500 characters or fewer' })
+  }
+  if (availableIngredients.length > 500) {
+    return res.status(400).json({ error: 'availableIngredients must be 500 characters or fewer' })
+  }
+
   const payload = { mood: mood.trim(), alcoholic: Boolean(alcoholic), spirits, flavors, availableIngredients }
   const systemPrompt = buildSystemPrompt()
   const userPrompt = buildUserPrompt(payload)
@@ -31,13 +46,17 @@ export async function recommendHandler(req, res) {
   try {
     const result = await callClaude(systemPrompt, userPrompt)
     return res.json(result)
-  } catch {
-    // Retry once on failure (malformed JSON or validation error)
-    try {
-      const result = await callClaude(systemPrompt, userPrompt)
-      return res.json(result)
-    } catch {
-      return res.status(500).json({ error: 'Something went wrong — please try again.' })
+  } catch (err) {
+    // Only retry on parse/validation errors, not Anthropic API errors
+    const isRetryable = err instanceof SyntaxError || (typeof err.message === 'string' && (err.message.startsWith('missing') || err.message === 'unexpected Claude response shape'))
+    if (isRetryable) {
+      try {
+        const result = await callClaude(systemPrompt, userPrompt)
+        return res.json(result)
+      } catch {
+        return res.status(500).json({ error: 'Something went wrong — please try again.' })
+      }
     }
+    return res.status(500).json({ error: 'Something went wrong — please try again.' })
   }
 }
