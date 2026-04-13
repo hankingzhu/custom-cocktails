@@ -13,8 +13,9 @@ export function createApp() {
   return app
 }
 
-const PORT = process.env.PORT || 3001
-const app = createApp()
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
-})
+if (process.argv[1] === new URL(import.meta.url).pathname) {
+  const PORT = process.env.PORT || 3001
+  createApp().listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`)
+  })
+}
