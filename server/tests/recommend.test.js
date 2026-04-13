@@ -149,4 +149,24 @@ describe('POST /api/recommend', () => {
       })
     expect(res.status).toBe(400)
   })
+
+  it('retries and returns 200 when first Claude call returns wrong cocktail count', async () => {
+    const tooManyCocktails = {
+      cocktails: [
+        { rank: 1, name: 'A', moodMatch: 'test', ingredients: [{ item: 'x', amount: '1 oz' }], method: 'stir', glass: 'rocks', garnish: 'none' },
+        { rank: 2, name: 'B', moodMatch: 'test', ingredients: [{ item: 'x', amount: '1 oz' }], method: 'stir', glass: 'rocks', garnish: 'none' },
+        { rank: 3, name: 'C', moodMatch: 'test', ingredients: [{ item: 'x', amount: '1 oz' }], method: 'stir', glass: 'rocks', garnish: 'none' },
+        { rank: 4, name: 'D', moodMatch: 'test', ingredients: [{ item: 'x', amount: '1 oz' }], method: 'stir', glass: 'rocks', garnish: 'none' }
+      ]
+    }
+    mockCreate
+      .mockResolvedValueOnce({ content: [{ type: 'text', text: JSON.stringify(tooManyCocktails) }] })
+      .mockResolvedValueOnce({ content: [{ type: 'text', text: JSON.stringify(mockCocktailResponse) }] })
+    const app = await createApp()
+    const res = await request(app)
+      .post('/api/recommend')
+      .send({ mood: 'testing retry on count error', alcoholic: true, spirits: [], flavors: [], availableIngredients: '' })
+    expect(res.status).toBe(200)
+    expect(res.body.cocktails).toHaveLength(2)
+  })
 })

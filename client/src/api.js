@@ -9,9 +9,14 @@ export async function getRecommendations(payload) {
   } catch {
     throw new Error('Something went wrong — please try again.')
   }
-  const data = await res.json()
   if (!res.ok) {
-    throw new Error(data.error || 'Something went wrong — please try again.')
+    let errorMessage = 'Something went wrong — please try again.'
+    try {
+      const data = await res.json()
+      if (data.error) errorMessage = data.error
+    } catch { /* non-JSON error body — use default */ }
+    throw new Error(errorMessage)
   }
+  const data = await res.json()
   return data
 }

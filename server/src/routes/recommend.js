@@ -48,7 +48,11 @@ export async function recommendHandler(req, res) {
     return res.json(result)
   } catch (err) {
     // Only retry on parse/validation errors, not Anthropic API errors
-    const isRetryable = err instanceof SyntaxError || (typeof err.message === 'string' && (err.message.startsWith('missing') || err.message === 'unexpected Claude response shape'))
+    const isRetryable = err instanceof SyntaxError || (typeof err.message === 'string' && (
+  err.message.startsWith('missing') ||
+  err.message.startsWith('expected') ||
+  err.message === 'unexpected Claude response shape'
+))
     if (isRetryable) {
       try {
         const result = await callClaude(systemPrompt, userPrompt)
