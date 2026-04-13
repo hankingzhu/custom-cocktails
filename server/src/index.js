@@ -1,5 +1,6 @@
 import express from 'express'
 import cors from 'cors'
+import { recommendHandler } from './routes/recommend.js'
 
 export function createApp() {
   const app = express()
@@ -9,6 +10,8 @@ export function createApp() {
   app.get('/health', (_req, res) => {
     res.json({ status: 'ok' })
   })
+
+  app.post('/api/recommend', recommendHandler)
 
   return app
 }
