@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Logo from './Logo'
 
 const SPIRITS = ['Whiskey', 'Gin', 'Rum', 'Tequila', 'Vodka']
 const FLAVORS = ['Sweet', 'Sour', 'Bitter', 'Spicy', 'Smoky', 'Light']
@@ -24,6 +25,7 @@ export default function InputView({ onSubmit }) {
   return (
     <div className="input-view">
       <header>
+        <Logo size={68} />
         <h1>The Confidant</h1>
         <p className="tagline">Tell us how you feel, we'll make your drink</p>
       </header>
