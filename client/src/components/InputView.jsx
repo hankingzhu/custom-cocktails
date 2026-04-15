@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Logo from './Logo'
+import GlassIcon from './GlassIcon'
 
 const SPIRITS = ['Whiskey', 'Gin', 'Rum', 'Tequila', 'Vodka']
 const FLAVORS = ['Sweet', 'Sour', 'Bitter', 'Spicy', 'Smoky', 'Light']
@@ -95,15 +96,18 @@ export default function InputView({ onSubmit }) {
 
         <div className="field">
           <p className="field-label">Glass preference</p>
-          <div className="chips">
+          <div className="glass-chips">
             {GLASSES.map(glass => (
               <button
                 key={glass}
                 type="button"
-                className={`chip ${glassTypes.includes(glass) ? 'chip--active' : ''}`}
+                className={`glass-chip ${glassTypes.includes(glass) ? 'glass-chip--active' : ''}`}
                 onClick={() => toggleChip(glassTypes, setGlassTypes, glass)}
+                aria-pressed={glassTypes.includes(glass)}
+                aria-label={glass}
               >
-                {glass}
+                <GlassIcon type={glass} size={24} />
+                <span className="glass-chip__label">{glass}</span>
               </button>
             ))}
           </div>
