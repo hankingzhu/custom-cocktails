@@ -86,6 +86,33 @@ describe('buildUserPrompt', () => {
     expect(prompt).not.toContain('Gin')
   })
 
+  it('includes glass type preference when provided', () => {
+    const payload = {
+      mood: 'celebratory',
+      alcoholic: true,
+      spirits: [],
+      flavors: [],
+      availableIngredients: '',
+      glassTypes: ['Coupe', 'Nick & Nora']
+    }
+    const prompt = buildUserPrompt(payload)
+    expect(prompt).toContain('Coupe')
+    expect(prompt).toContain('Nick & Nora')
+  })
+
+  it('omits glass preference line when glassTypes is empty', () => {
+    const payload = {
+      mood: 'happy',
+      alcoholic: true,
+      spirits: [],
+      flavors: [],
+      availableIngredients: '',
+      glassTypes: []
+    }
+    const prompt = buildUserPrompt(payload)
+    expect(prompt).not.toContain('glass')
+  })
+
   it('handles whitespace-only availableIngredients as empty', () => {
     const payload = {
       mood: 'happy',

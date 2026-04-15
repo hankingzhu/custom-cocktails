@@ -3,12 +3,14 @@ import Logo from './Logo'
 
 const SPIRITS = ['Whiskey', 'Gin', 'Rum', 'Tequila', 'Vodka']
 const FLAVORS = ['Sweet', 'Sour', 'Bitter', 'Spicy', 'Smoky', 'Light']
+const GLASSES = ['Rocks', 'Coupe', 'Highball', 'Nick & Nora', 'Collins', 'Martini']
 
 export default function InputView({ onSubmit }) {
   const [mood, setMood] = useState('')
   const [alcoholic, setAlcoholic] = useState(true)
   const [spirits, setSpirits] = useState([])
   const [flavors, setFlavors] = useState([])
+  const [glassTypes, setGlassTypes] = useState([])
   const [availableIngredients, setAvailableIngredients] = useState('')
 
   function toggleChip(list, setList, value) {
@@ -19,7 +21,7 @@ export default function InputView({ onSubmit }) {
 
   function handleSubmit(e) {
     e.preventDefault()
-    onSubmit({ mood, alcoholic, spirits, flavors, availableIngredients })
+    onSubmit({ mood, alcoholic, spirits, flavors, glassTypes, availableIngredients })
   }
 
   return (
@@ -86,6 +88,22 @@ export default function InputView({ onSubmit }) {
                 onClick={() => toggleChip(flavors, setFlavors, flavor)}
               >
                 {flavor}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="field">
+          <p className="field-label">Glass preference</p>
+          <div className="chips">
+            {GLASSES.map(glass => (
+              <button
+                key={glass}
+                type="button"
+                className={`chip ${glassTypes.includes(glass) ? 'chip--active' : ''}`}
+                onClick={() => toggleChip(glassTypes, setGlassTypes, glass)}
+              >
+                {glass}
               </button>
             ))}
           </div>
