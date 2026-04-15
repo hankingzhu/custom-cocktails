@@ -39,7 +39,7 @@ describe('InputView', () => {
     render(<InputView onSubmit={vi.fn()} />)
     expect(screen.getByText('Coupe')).toBeInTheDocument()
     expect(screen.getByText('Rocks')).toBeInTheDocument()
-    expect(screen.getByText('Nick & Nora')).toBeInTheDocument()
+    expect(screen.getByText('Martini')).toBeInTheDocument()
   })
 
   it('includes selected glass types in onSubmit payload', async () => {

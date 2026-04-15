@@ -345,7 +345,7 @@ input[type="checkbox"] {
 /* Glass icon chips */
 .glass-chips {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 0.4rem;
 }
 
@@ -771,10 +771,6 @@ input[type="checkbox"] {
 
   .input-view form {
     padding: 1.75rem 1.25rem;
-  }
-
-  .glass-chips {
-    grid-template-columns: repeat(3, 1fr);
   }
 
   .cocktail-card {

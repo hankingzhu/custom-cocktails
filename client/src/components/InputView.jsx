@@ -4,7 +4,7 @@ import GlassIcon from './GlassIcon'
 
 const SPIRITS = ['Whiskey', 'Gin', 'Rum', 'Tequila', 'Vodka']
 const FLAVORS = ['Sweet', 'Sour', 'Bitter', 'Spicy', 'Smoky', 'Light']
-const GLASSES = ['Rocks', 'Coupe', 'Highball', 'Nick & Nora', 'Collins', 'Martini']
+const GLASSES = ['Rocks', 'Highball', 'Coupe', 'Martini']
 
 export default function InputView({ onSubmit }) {
   const [mood, setMood] = useState('')
