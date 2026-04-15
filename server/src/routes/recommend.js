@@ -1,6 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk'
 import { buildSystemPrompt, buildUserPrompt } from '../prompt.js'
 import { validateCocktailResponse } from '../validate.js'
+import { MOCK_RESPONSE } from '../mockResponse.js'
 
 const client = new Anthropic()
 
@@ -37,6 +38,10 @@ export async function recommendHandler(req, res) {
   }
   if (availableIngredients.length > 500) {
     return res.status(400).json({ error: 'availableIngredients must be 500 characters or fewer' })
+  }
+
+  if (process.env.USE_MOCK === 'true') {
+    return res.json(MOCK_RESPONSE)
   }
 
   const payload = { mood: mood.trim(), alcoholic: Boolean(alcoholic), spirits, flavors, availableIngredients }
