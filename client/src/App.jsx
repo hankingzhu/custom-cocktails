@@ -11,10 +11,6 @@ export default function App() {
   const [errorMessage, setErrorMessage] = useState('')
   const [lang, setLang] = useState('en')
 
-  function toggleLang() {
-    setLang(l => l === 'en' ? 'zh' : 'en')
-  }
-
   async function handleSubmit(payload) {
     setView('loading')
     try {
@@ -35,9 +31,15 @@ export default function App() {
 
   return (
     <>
-      <button className="lang-toggle" onClick={toggleLang} aria-label="Toggle language">
-        {lang === 'en' ? '中文' : 'EN'}
-      </button>
+      <select
+        className="lang-select"
+        value={lang}
+        onChange={e => setLang(e.target.value)}
+        aria-label="Language"
+      >
+        <option value="en">English</option>
+        <option value="zh">中文</option>
+      </select>
 
       <main className="app">
         {view === 'loading' && (
