@@ -40,7 +40,7 @@ RESPONSE RULES:
 }
 
 export function buildUserPrompt(payload) {
-  const { mood, alcoholic, spirits, flavors, availableIngredients, glassTypes } = payload
+  const { mood, alcoholic, spirits, flavors, availableIngredients, glassType } = payload
 
   const lines = []
   lines.push(`How I feel: ${mood}`)
@@ -57,8 +57,8 @@ export function buildUserPrompt(payload) {
     lines.push(`Flavor preferences: ${flavors.join(', ')}`)
   }
 
-  if (glassTypes && glassTypes.length > 0) {
-    lines.push(`Preferred glass: ${glassTypes.join(' or ')} — try to match this, but prioritise taste fit over glass if they conflict.`)
+  if (glassType && glassType.trim() !== '') {
+    lines.push(`Preferred glass: ${glassType} — try to match this, but prioritise taste fit over glass if they conflict.`)
   }
 
   if (availableIngredients && availableIngredients.trim() !== '') {

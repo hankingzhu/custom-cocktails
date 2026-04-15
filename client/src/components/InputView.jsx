@@ -11,7 +11,7 @@ export default function InputView({ onSubmit }) {
   const [alcoholic, setAlcoholic] = useState(true)
   const [spirits, setSpirits] = useState([])
   const [flavors, setFlavors] = useState([])
-  const [glassTypes, setGlassTypes] = useState([])
+  const [glassType, setGlassType] = useState('')
   const [availableIngredients, setAvailableIngredients] = useState('')
 
   function toggleChip(list, setList, value) {
@@ -22,7 +22,7 @@ export default function InputView({ onSubmit }) {
 
   function handleSubmit(e) {
     e.preventDefault()
-    onSubmit({ mood, alcoholic, spirits, flavors, glassTypes, availableIngredients })
+    onSubmit({ mood, alcoholic, spirits, flavors, glassType, availableIngredients })
   }
 
   return (
@@ -101,9 +101,9 @@ export default function InputView({ onSubmit }) {
               <button
                 key={glass}
                 type="button"
-                className={`glass-chip ${glassTypes.includes(glass) ? 'glass-chip--active' : ''}`}
-                onClick={() => toggleChip(glassTypes, setGlassTypes, glass)}
-                aria-pressed={glassTypes.includes(glass)}
+                className={`glass-chip ${glassType === glass ? 'glass-chip--active' : ''}`}
+                onClick={() => setGlassType(prev => prev === glass ? '' : glass)}
+                aria-pressed={glassType === glass}
                 aria-label={glass}
               >
                 <GlassIcon type={glass} size={24} />

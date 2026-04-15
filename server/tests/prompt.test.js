@@ -93,21 +93,20 @@ describe('buildUserPrompt', () => {
       spirits: [],
       flavors: [],
       availableIngredients: '',
-      glassTypes: ['Coupe', 'Nick & Nora']
+      glassType: 'Coupe'
     }
     const prompt = buildUserPrompt(payload)
     expect(prompt).toContain('Coupe')
-    expect(prompt).toContain('Nick & Nora')
   })
 
-  it('omits glass preference line when glassTypes is empty', () => {
+  it('omits glass preference line when glassType is empty', () => {
     const payload = {
       mood: 'happy',
       alcoholic: true,
       spirits: [],
       flavors: [],
       availableIngredients: '',
-      glassTypes: []
+      glassType: ''
     }
     const prompt = buildUserPrompt(payload)
     expect(prompt).not.toContain('glass')

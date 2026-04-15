@@ -42,7 +42,7 @@ describe('InputView', () => {
     expect(screen.getByText('Martini')).toBeInTheDocument()
   })
 
-  it('includes selected glass types in onSubmit payload', async () => {
+  it('includes selected glass type in onSubmit payload', async () => {
     const onSubmit = vi.fn()
     render(<InputView onSubmit={onSubmit} />)
     const textarea = screen.getByRole('textbox', { name: /how are you feeling/i })
@@ -51,7 +51,21 @@ describe('InputView', () => {
     await userEvent.click(screen.getByRole('button', { name: /craft my cocktail/i }))
 
     expect(onSubmit).toHaveBeenCalledWith(
-      expect.objectContaining({ glassTypes: ['Coupe'] })
+      expect.objectContaining({ glassType: 'Coupe' })
+    )
+  })
+
+  it('deselects glass type when clicked again', async () => {
+    const onSubmit = vi.fn()
+    render(<InputView onSubmit={onSubmit} />)
+    const textarea = screen.getByRole('textbox', { name: /how are you feeling/i })
+    await userEvent.type(textarea, 'I had a long day and need to relax')
+    await userEvent.click(screen.getByText('Coupe'))
+    await userEvent.click(screen.getByText('Coupe'))
+    await userEvent.click(screen.getByRole('button', { name: /craft my cocktail/i }))
+
+    expect(onSubmit).toHaveBeenCalledWith(
+      expect.objectContaining({ glassType: '' })
     )
   })
 
