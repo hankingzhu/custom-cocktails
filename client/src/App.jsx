@@ -9,11 +9,16 @@ export default function App() {
   const [view, setView] = useState('input')  // 'input' | 'loading' | 'results' | 'error'
   const [cocktails, setCocktails] = useState([])
   const [errorMessage, setErrorMessage] = useState('')
+  const [lang, setLang] = useState('en')
+
+  function toggleLang() {
+    setLang(l => l === 'en' ? 'zh' : 'en')
+  }
 
   async function handleSubmit(payload) {
     setView('loading')
     try {
-      const data = await getRecommendations(payload)
+      const data = await getRecommendations({ ...payload, language: lang })
       setCocktails(data.cocktails)
       setView('results')
     } catch (err) {
@@ -28,35 +33,28 @@ export default function App() {
     setView('input')
   }
 
-  if (view === 'loading') {
-    return (
-      <main className="app">
-        <div className="loading">
-          <p>Crafting your cocktails...</p>
-        </div>
-      </main>
-    )
-  }
-
-  if (view === 'results') {
-    return (
-      <main className="app">
-        <ResultsView cocktails={cocktails} onReset={handleReset} />
-      </main>
-    )
-  }
-
-  if (view === 'error') {
-    return (
-      <main className="app">
-        <ErrorView message={errorMessage} onRetry={handleReset} />
-      </main>
-    )
-  }
-
   return (
-    <main className="app">
-      <InputView onSubmit={handleSubmit} />
-    </main>
+    <>
+      <button className="lang-toggle" onClick={toggleLang} aria-label="Toggle language">
+        {lang === 'en' ? '中文' : 'EN'}
+      </button>
+
+      <main className="app">
+        {view === 'loading' && (
+          <div className="loading">
+            <p>{lang === 'en' ? 'Crafting your cocktails...' : '正在为您调制鸡尾酒…'}</p>
+          </div>
+        )}
+        {view === 'results' && (
+          <ResultsView cocktails={cocktails} onReset={handleReset} lang={lang} />
+        )}
+        {view === 'error' && (
+          <ErrorView message={errorMessage} onRetry={handleReset} lang={lang} />
+        )}
+        {view === 'input' && (
+          <InputView onSubmit={handleSubmit} lang={lang} />
+        )}
+      </main>
+    </>
   )
 }

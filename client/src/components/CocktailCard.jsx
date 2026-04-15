@@ -1,4 +1,7 @@
-export default function CocktailCard({ cocktail }) {
+import { t } from '../i18n'
+
+export default function CocktailCard({ cocktail, lang = 'en' }) {
+  const tx = t[lang]
   const { rank, name, moodMatch, ingredients, method, glass, garnish } = cocktail
 
   return (
@@ -11,7 +14,7 @@ export default function CocktailCard({ cocktail }) {
       <p className="cocktail-card__mood-match">{moodMatch}</p>
 
       <div className="cocktail-card__section">
-        <h3>Ingredients</h3>
+        <h3>{tx.ingredients}</h3>
         <ul className="ingredient-list">
           {ingredients.map((ing) => (
             <li key={`${ing.item}-${ing.amount}`} className="ingredient-item">
@@ -23,13 +26,13 @@ export default function CocktailCard({ cocktail }) {
       </div>
 
       <div className="cocktail-card__section">
-        <h3>Method</h3>
+        <h3>{tx.method}</h3>
         <p>{method}</p>
       </div>
 
       <div className="cocktail-card__meta">
-        <span>Glass: {glass}</span>
-        <span>Garnish: {garnish ?? 'None'}</span>
+        <span data-label={tx.glass}>{glass}</span>
+        <span data-label={tx.garnish}>{garnish ?? tx.none}</span>
       </div>
     </article>
   )

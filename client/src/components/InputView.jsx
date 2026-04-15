@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import Logo from './Logo'
 import GlassIcon from './GlassIcon'
+import { t } from '../i18n'
 
 const SPIRITS = ['Whiskey', 'Gin', 'Rum', 'Tequila', 'Vodka']
 const FLAVORS = ['Sweet', 'Sour', 'Bitter', 'Spicy', 'Smoky', 'Light']
 const GLASSES = ['Rocks', 'Highball', 'Coupe', 'Martini']
 
-export default function InputView({ onSubmit }) {
+export default function InputView({ onSubmit, lang = 'en' }) {
+  const tx = t[lang]
   const [mood, setMood] = useState('')
   const [alcoholic, setAlcoholic] = useState(true)
   const [spirits, setSpirits] = useState([])
@@ -30,17 +32,17 @@ export default function InputView({ onSubmit }) {
       <header>
         <Logo size={68} />
         <h1>The Confidant</h1>
-        <p className="tagline">Tell us how you feel, we'll make your drink</p>
+        <p className="tagline">{tx.tagline}</p>
       </header>
 
       <form onSubmit={handleSubmit}>
         <div className="field">
-          <label htmlFor="mood">How are you feeling?</label>
+          <label htmlFor="mood">{tx.moodLabel}</label>
           <textarea
             id="mood"
             value={mood}
             onChange={e => setMood(e.target.value)}
-            placeholder="I had a long day, want something smoky and not too sweet..."
+            placeholder={tx.moodPlaceholder}
             rows={4}
           />
         </div>
@@ -56,13 +58,13 @@ export default function InputView({ onSubmit }) {
                 setSpirits([])
               }}
             />
-            {' '}Non-alcoholic
+            {' '}{tx.nonAlcoholic}
           </label>
         </div>
 
         {alcoholic && (
           <div className="field">
-            <p className="field-label">Spirit preference</p>
+            <p className="field-label">{tx.spiritLabel}</p>
             <div className="chips">
               {SPIRITS.map(spirit => (
                 <button
@@ -71,7 +73,7 @@ export default function InputView({ onSubmit }) {
                   className={`chip ${spirits.includes(spirit) ? 'chip--active' : ''}`}
                   onClick={() => toggleChip(spirits, setSpirits, spirit)}
                 >
-                  {spirit}
+                  {tx.spirits[spirit]}
                 </button>
               ))}
             </div>
@@ -79,7 +81,7 @@ export default function InputView({ onSubmit }) {
         )}
 
         <div className="field">
-          <p className="field-label">Flavor nudge</p>
+          <p className="field-label">{tx.flavorLabel}</p>
           <div className="chips">
             {FLAVORS.map(flavor => (
               <button
@@ -88,14 +90,14 @@ export default function InputView({ onSubmit }) {
                 className={`chip ${flavors.includes(flavor) ? 'chip--active' : ''}`}
                 onClick={() => toggleChip(flavors, setFlavors, flavor)}
               >
-                {flavor}
+                {tx.flavors[flavor]}
               </button>
             ))}
           </div>
         </div>
 
         <div className="field">
-          <p className="field-label">Glass preference</p>
+          <p className="field-label">{tx.glassLabel}</p>
           <div className="glass-chips">
             {GLASSES.map(glass => (
               <button
@@ -104,23 +106,23 @@ export default function InputView({ onSubmit }) {
                 className={`glass-chip ${glassType === glass ? 'glass-chip--active' : ''}`}
                 onClick={() => setGlassType(prev => prev === glass ? '' : glass)}
                 aria-pressed={glassType === glass}
-                aria-label={glass}
+                aria-label={tx.glasses[glass]}
               >
                 <GlassIcon type={glass} size={24} />
-                <span className="glass-chip__label">{glass}</span>
+                <span className="glass-chip__label">{tx.glasses[glass]}</span>
               </button>
             ))}
           </div>
         </div>
 
         <div className="field">
-          <label htmlFor="ingredients">Ingredients I have at home (optional)</label>
+          <label htmlFor="ingredients">{tx.ingredientsLabel}</label>
           <input
             id="ingredients"
             type="text"
             value={availableIngredients}
             onChange={e => setAvailableIngredients(e.target.value)}
-            placeholder="gin, lemon, honey, soda water..."
+            placeholder={tx.ingredientsPlaceholder}
           />
         </div>
 
@@ -129,7 +131,7 @@ export default function InputView({ onSubmit }) {
           className="btn-primary"
           disabled={mood.trim().length < 10}
         >
-          <span>Craft My Cocktail</span>
+          <span>{tx.submit}</span>
         </button>
       </form>
     </div>

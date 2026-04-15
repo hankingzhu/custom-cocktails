@@ -40,7 +40,7 @@ RESPONSE RULES:
 }
 
 export function buildUserPrompt(payload) {
-  const { mood, alcoholic, spirits, flavors, availableIngredients, glassType } = payload
+  const { mood, alcoholic, spirits, flavors, availableIngredients, glassType, language } = payload
 
   const lines = []
   lines.push(`How I feel: ${mood}`)
@@ -67,6 +67,10 @@ export function buildUserPrompt(payload) {
   }
 
   lines.push('Recommend 2-3 cocktails that best match my mood and preferences. Rank them by fit.')
+
+  if (language === 'zh') {
+    lines.push('请用中文简体回答。所有字段的文字内容（包括鸡尾酒名称、moodMatch、配料名称、调制方法、装饰）均请使用中文。JSON的键名保持英文。')
+  }
 
   return lines.join('\n')
 }
