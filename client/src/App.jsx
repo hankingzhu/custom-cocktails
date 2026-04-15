@@ -2,6 +2,7 @@ import { useState } from 'react'
 import InputView from './components/InputView'
 import ResultsView from './components/ResultsView'
 import ErrorView from './components/ErrorView'
+import LangDropdown from './components/LangDropdown'
 import { getRecommendations } from './api'
 import './index.css'
 
@@ -31,15 +32,7 @@ export default function App() {
 
   return (
     <>
-      <select
-        className="lang-select"
-        value={lang}
-        onChange={e => setLang(e.target.value)}
-        aria-label="Language"
-      >
-        <option value="en">English</option>
-        <option value="zh">中文</option>
-      </select>
+      <LangDropdown lang={lang} onChange={setLang} />
 
       <main className="app">
         {view === 'loading' && (
