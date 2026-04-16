@@ -1,7 +1,7 @@
 import CocktailCard from './CocktailCard'
 import { t } from '../i18n'
 
-export default function ResultsView({ cocktails, onReset, lang = 'en' }) {
+export default function ResultsView({ cocktails, onReset, onSelect, lang = 'en' }) {
   const tx = t[lang]
   return (
     <div className="results-view">
@@ -11,7 +11,12 @@ export default function ResultsView({ cocktails, onReset, lang = 'en' }) {
       </header>
       <div className="results-view__cards">
         {cocktails.map(cocktail => (
-          <CocktailCard key={cocktail.rank} cocktail={cocktail} lang={lang} />
+          <CocktailCard
+            key={cocktail.rank}
+            cocktail={cocktail}
+            onSelect={onSelect}
+            lang={lang}
+          />
         ))}
       </div>
     </div>

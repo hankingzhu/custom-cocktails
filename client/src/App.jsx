@@ -2,13 +2,15 @@ import { useState } from 'react'
 import InputView from './components/InputView'
 import ResultsView from './components/ResultsView'
 import ErrorView from './components/ErrorView'
+import ConfirmedView from './components/ConfirmedView'
 import LangDropdown from './components/LangDropdown'
 import { getRecommendations } from './api'
 import './index.css'
 
 export default function App() {
-  const [view, setView] = useState('input')  // 'input' | 'loading' | 'results' | 'error'
+  const [view, setView] = useState('input')  // 'input' | 'loading' | 'results' | 'error' | 'confirmed'
   const [cocktails, setCocktails] = useState([])
+  const [selectedCocktail, setSelectedCocktail] = useState(null)
   const [errorMessage, setErrorMessage] = useState('')
   const [lang, setLang] = useState('en')
 
@@ -24,8 +26,14 @@ export default function App() {
     }
   }
 
+  function handleSelect(cocktail) {
+    setSelectedCocktail(cocktail)
+    setView('confirmed')
+  }
+
   function handleReset() {
     setCocktails([])
+    setSelectedCocktail(null)
     setErrorMessage('')
     setView('input')
   }
@@ -41,7 +49,10 @@ export default function App() {
           </div>
         )}
         {view === 'results' && (
-          <ResultsView cocktails={cocktails} onReset={handleReset} lang={lang} />
+          <ResultsView cocktails={cocktails} onReset={handleReset} onSelect={handleSelect} lang={lang} />
+        )}
+        {view === 'confirmed' && (
+          <ConfirmedView cocktail={selectedCocktail} onStartOver={handleReset} lang={lang} />
         )}
         {view === 'error' && (
           <ErrorView message={errorMessage} onRetry={handleReset} lang={lang} />

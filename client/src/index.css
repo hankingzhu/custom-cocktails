@@ -815,6 +815,93 @@ input[type="checkbox"] {
   color: var(--cream-dim);
 }
 
+/* Select button — amber fill, sits at the bottom of each card */
+.btn-select {
+  width: 100%;
+  margin-top: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--amber-dim);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  color: var(--amber-light);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.3s ease;
+}
+
+.btn-select::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--amber);
+  transform: translateY(101%);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-select:hover { color: #07080c; }
+.btn-select:hover::before { transform: translateY(0); }
+
+.btn-select span {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Confirmed View ───────────────────────────── */
+
+.confirmed-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 5rem 1rem 4rem;
+  animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.confirmed-view__mark {
+  color: var(--amber);
+  margin-bottom: 2.5rem;
+  filter: drop-shadow(0 0 16px rgba(196, 134, 58, 0.35));
+  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.confirmed-view__heading {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 7vw, 3.5rem);
+  font-weight: 400;
+  color: var(--cream);
+  line-height: 1.05;
+  margin-bottom: 0.75rem;
+}
+
+.confirmed-view__name {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  font-style: italic;
+  color: var(--amber-light);
+  margin-bottom: 2rem;
+  letter-spacing: 0.01em;
+}
+
+.confirmed-view__message {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--cream-dim);
+  max-width: 400px;
+  line-height: 1.8;
+  margin-bottom: 3rem;
+}
+
+.confirmed-view__btn {
+  min-width: 200px;
+}
+
 /* ── Error View ───────────────────────────────── */
 
 .error-view {

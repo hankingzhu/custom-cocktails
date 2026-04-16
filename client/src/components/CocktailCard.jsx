@@ -1,6 +1,6 @@
 import { t } from '../i18n'
 
-export default function CocktailCard({ cocktail, lang = 'en' }) {
+export default function CocktailCard({ cocktail, onSelect, lang = 'en' }) {
   const tx = t[lang]
   const { rank, name, moodMatch, ingredients, method, glass, garnish } = cocktail
 
@@ -34,6 +34,12 @@ export default function CocktailCard({ cocktail, lang = 'en' }) {
         <span data-label={tx.glass}>{glass}</span>
         <span data-label={tx.garnish}>{garnish ?? tx.none}</span>
       </div>
+
+      {onSelect && (
+        <button className="btn-select" onClick={() => onSelect(cocktail)}>
+          <span>{tx.selectDrink}</span>
+        </button>
+      )}
     </article>
   )
 }
